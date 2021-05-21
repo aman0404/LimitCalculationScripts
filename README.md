@@ -20,3 +20,14 @@
     * cmsenv
     * git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
     * cd HiggsAnalysis/CombinedLimit
+    * scramv1 b
+**Step 4: Combining datacards and running Combine Tool :**
+    * cd $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/scripts
+    * rm *root
+    * rm *.txt
+    * Copy your datacards in this directory
+    * python combineCards.py VBF_card_M250_bin**.txt > VBF_card_M250.txt
+    * To Calculate the asymptotic limit :
+      * combine -M Asymptotic VBF_card_M250.txt
+    * to get the significance calculation
+      * combine -M ProfileLikelihood --signif VBF_card_M250.txt
