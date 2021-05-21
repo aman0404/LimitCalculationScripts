@@ -1,0 +1,30 @@
+#========= VBF temp
+imax 1  number of channels
+jmax 5  number of backgrounds
+kmax * number of nuisance parameters (sources of systematic uncertainties)
+# we have just one channel and will use some dummy data
+bin vbf_mutau
+observation 0
+bin            vbf_mutau      vbf_mutau      vbf_mutau      vbf_mutau      vbf_mutau      vbf_mutau     
+process        SIG            fakes          tt             DY             VV             ST            
+process        0              1              2              3              4              5             
+rate           16.1447000000  2884.6900000000 531.6160000000 73.5124000000  2.1111200000   1.1076800000   
+
+lumi    lnN    1.025          -              1.025          1.025          1.025          1.025         
+scale   lnN    1.004          -              -              -              -              -             
+pdf     lnN    1.021          -              -              -              -              -             
+Trig00  lnN    1.03           -              1.03           1.03           1.03           1.03          
+ttxs    lnN    -              -              1.042          -              -              -             
+vvxs    lnN    -              -              -              -              1.05           -             
+stxs    lnN    -              -              -              -              -              1.05          
+dyxs    lnN    -              -              -              1.02           -              -             
+MUID    lnN    1.02           -              1.02           -              -              -             
+ELID    lnN    1.02           -              1.02           1.02           1.02           1.02          
+TAUID   lnN    1.04           -              1.04           1.04           1.04           1.04          
+MMS     lnN    1.02           -              1.02           1.02           1.02           1.02          
+EES     lnN    1.02           -              1.02           1.02           1.02           1.02          
+BTAG    lnN    -              -              1.015          -              -              -             
+JER     lnN    1.10           -              1.10           1.10           1.10           1.10          
+JER     lnN    1.10           -              1.10           1.10           1.10           1.10          
+ISR     lnN    -              -              -              1.05           -              -             
+wfake   lnN    -              0.971/1.00     -              -              -              -              
