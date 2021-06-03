@@ -16,37 +16,42 @@
 {
 
 
-//Choose your signal region binning
+
 Double_t bins[13] = {100,150,200,250,300,350,400,450,500,550,650,850, 1500};
 
-TH1 *h1[3], *h2[3], *hnew ;
-//array size should be equal to number of input bkg root files
+TH1 *h1[10], *h2[10], *hnew ;
 
 std::vector<std::string>sample;
 std::string str;
-std::ifstream in("bkg_list.txt"); //list of bkg root files
+std::ifstream in("bkg_list.txt");
 while (std::getline(in, str))
 {
 if(str.size() > 0)
         sample.push_back(str);
 }
-TFile *file[3];  ////array size should be equal to number of input bkg root files
-for(int i=0; i < 3; i++){ ////array size should be equal to number of input bkg root files
+
+TFile *file[10];
+for(int i=0; i < 10; i++){
 char nl[256];
 sprintf(nl,"%s",sample.at(i).c_str());
+std::string fstr = sample.at(i).c_str();
 file[i] = new TFile(nl);
 
-file[i]->GetObject("NDiJetCombinations/Muon1Tau1ReconstructableMass",h2[i]);
-//h2[i]->Scale(3.3); //Scaling 2017 to full RunII
+file[i]->GetObject("NRecoBJet/DiTauReconstructableMass",h2[i]);
+
+
 TH1F *hnew = (TH1F*)h2[i]->Rebin(12,"hnew",bins);
 for(int j = 1; j < 13 ;j++){ 
 double yield = hnew->GetBinContent(j);
 
 char name1[256];
-std::string n[3] = {"dy", "vv","ST"};
+std::string n[5] = {"wj", "dy","tt","st","vv"};
 //std::cout<<n[i]<<std::endl;
 sprintf(name1,"%s",n[i].c_str());
-std::ofstream log1(TString(name1)+"_binyield.txt",std::ios_base::app|std::ios_base::out); //output yield txt files ready to be used in datacards
+std::string delimiter = "." ;
+std::string token = fstr.substr(0, fstr.find(delimiter));
+//std::cout<<token<<std::endl;
+std::ofstream log1(token+"_binyield.txt",std::ios_base::app|std::ios_base::out);
 log1<<j<<" "<<yield<<std::endl;
 log1.close();
 }
