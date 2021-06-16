@@ -7,6 +7,7 @@ import sys
 
 
 coupling = sys.argv[1]
+value_xsec = 0.01 #default value of x-section for signal
 	
 fac = float(coupling)*float(coupling)
 
@@ -16,7 +17,7 @@ xsec = [119.2, 5.365, 0.8273, 0.1994, 0.06114, 0.02174, 0.008568, 0.003596, 0.00
 def executeCards(points):
     mass = len(points)
     for j in range(mass):
-        file_name = "vbf_ch3_M"+str(points[j])+".txt" 
+        file_name = "VBF_M"+str(points[j])+".txt" 
         combine_command = "combine -M AsymptoticLimits -m %s %s" % (points[j], file_name)
         print(">>> " + combine_command)
         p = subprocess.Popen(combine_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -34,7 +35,7 @@ def getLimits(file_name):
  
     	limits = [ ]
     	for quantile in tree:
-            limits.append(tree.limit)
+            limits.append(value_xsec*tree.limit) ##in pb
             print ">>>   %.2f" % limits[-1]
  
     	return limits[:6]
@@ -100,8 +101,9 @@ def plotUpperLimits(file_name):
     frame.GetYaxis().SetTitle("#sigma #times B [pb]")
 #    frame.GetYaxis().SetTitle("95% upper limit on #sigma #times BR / (#sigma #times BR)_{SM}")
     frame.GetXaxis().SetTitle("M_{Z'} [GeV]")
-    frame.SetMinimum(0.001)
-#    frame.SetMaximum(max(up2s)*1.05)
+    frame.SetMinimum(0.00005)
+#    frame.SetMinimum(0.001)
+##old    frame.SetMaximum(max(up2s)*1.05)
     frame.SetMaximum(max(up2s)*6.05)
     frame.GetXaxis().SetLimits(min(points),max(points))
     yellow.SetFillColor(ROOT.kOrange)
@@ -138,7 +140,7 @@ def plotUpperLimits(file_name):
     ROOT.gPad.SetTicks(1,1)
     frame.Draw('sameaxis')
  
-    x1 = 0.67
+    x1 = 0.62
     x2 = x1 + 0.25
     y2 = 0.86
     y1 = 0.66
@@ -157,12 +159,13 @@ def plotUpperLimits(file_name):
     legend.Draw()
  
     print " "
-    c.SaveAs("emu_kv1p0_gl1_UpperLimit.png")
-    c.SaveAs("emu_kv1p0_gl1_UpperLimit.root")
+    c.SaveAs("all_kv0p25_gl0_UpperLimit.png")
+    c.SaveAs("all_kv0p25_gl0_UpperLimit.root")
+    c.SaveAs("all_kv0p25_gl0_UpperLimit.pdf")
     c.Close()
 
 def main():
-	executeCards(points)
+#	executeCards(points)
 	plotUpperLimits(points)
 
 if __name__ == '__main__':
