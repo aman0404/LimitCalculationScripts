@@ -165,7 +165,7 @@ def plotUpperLimits(file_name):
     c.Close()
 
 def main():
-#	executeCards(points)
+	executeCards(points)
 	plotUpperLimits(points)
 
 if __name__ == '__main__':
